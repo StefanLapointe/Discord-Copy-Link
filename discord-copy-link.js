@@ -147,7 +147,8 @@ function injectOptions(menu, link) {
     }
 
     // Construct the new menu item group.
-    let group = scroller.querySelector("[role=\"group\"]").cloneNode(true);
+    let group = document.createElement("div");
+    group.setAttribute("role", "group");
     group.replaceChildren(copyLink, openLink);
 
     // Insert the new separator and menu item group.
