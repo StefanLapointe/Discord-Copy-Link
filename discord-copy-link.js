@@ -146,6 +146,45 @@ function injectOptions(menu, link) {
         menu.parentElement.parentElement.click(); // Click on the "click trap".
     });
 
+    // Obtain class name suffix and create focused class name.
+    let suffix = arbitraryMenuItem.classList.item(0).split("_")[1];
+    let focused = "focused_" + suffix;
+
+    // Give new menu items expected focus behaviour.
+    let onmouseenter = (event) => {
+        event.target.classList.add(focused);
+    };
+    copyLink.addEventListener("mouseenter", onmouseenter);
+    openLink.addEventListener("mouseenter", onmouseenter);
+    menu.addEventListener("mouseleave", (event) => {
+        for (let i = 0; i < scroller.children.length; i++) {
+            for (let j = 0; j < scroller.children[i].children.length; j++) {
+                scroller.children[i].children[j].classList.remove(focused);
+            }
+        }
+    })
+    let layerContainer = menu.parentElement.parentElement.parentElement;
+    let observer = new MutationObserver((records, observer) => {
+        if (!document.getElementById("message")) {
+            observer.disconnect();
+            return;
+        }
+        for (let record of records) {
+            if (record.target.classList.contains(focused)) {
+                for (let element of scroller.querySelectorAll("." + focused)) {
+                    if (element != record.target) {
+                        console.log("unfocusing " + element.id);
+                        element.classList.remove(focused);
+                    }
+                }
+            }
+        }
+    });
+    observer.observe(layerContainer, {
+        subtree: true,
+        attributeFilter: ["class"]
+    });
+
     // Construct the new menu item group.
     let group = document.createElement("div");
     group.setAttribute("role", "group");
