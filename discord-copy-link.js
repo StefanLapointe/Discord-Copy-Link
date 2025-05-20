@@ -100,5 +100,52 @@ function waitForElementById(id) {
 }
 
 function injectOptions(menu, link) {
-    alert(menu + " " + link)
+    // The menu has one child, a "scroller", which contains groups of meny items
+    // and separators as children.
+    let scroller = menu.firstElementChild;
+
+    // Normally the last menu item in the context menu is "Delete Message" or
+    // "Report Message", depending on whether or not the user sent the message.
+    // If "Developer Mode", then an additional group of menu items is added,
+    // containing just one menu item, "Copy Message ID". On the desktop app,
+    // the group containing "Copy Link" and "Open Link" and the group containing
+    // "Copy Image" and "Open Image" appear where applicable, in that order,
+    // between the "Delete Message" or "Report Message" menu item group and the
+    // "Copy Message ID" menu item group when in "Developer Mode", or just at
+    // the end otherwise. Thus, the simplest solution is to obtain the menu item
+    // group containing "Delete Message" or "Report Message" and then append
+    // things after that.
+    let deleteMessage = document.getElementById("message-delete");
+    let reportMessage = document.getElementById("message-report");
+    let previousGroup = (deleteMessage || reportMessage).parentElement;
+
+    // Clone a separator to add to the scroller.
+    let separator = scroller.querySelector("[role=\"separator\"]").cloneNode();
+
+    // Obtain an arbitrary menu item to use to construct the new menu items.
+    // Note that its event listeners will not be preserved by cloning.
+    let markUnread = document.getElementById("message-mark-unread");
+    let arbitraryMenuItem = markUnread.cloneNode(true);
+    arbitraryMenuItem.lastElementChild.remove(); // Remove SVG image.
+
+    // Construct the "Copy Link" menu item.
+    let copyLink = arbitraryMenuItem.cloneNode(true);
+    copyLink.firstElementChild.innerText = "Copy Link";
+    copyLink.onclick = () => {
+        navigator.clipboard.writeText(link);
+    }
+
+    // Construct the "CoOpenpy Link" menu item.
+    let openLink = arbitraryMenuItem.cloneNode(true);
+    openLink.firstElementChild.innerText = "Open Link";
+    openLink.onclick = () => {
+        window.open(link);
+    }
+
+    // Construct the new menu item group.
+    let group = scroller.querySelector("[role=\"group\"]").cloneNode(true);
+    group.replaceChildren(copyLink, openLink);
+
+    // Insert the new separator and menu item group.
+    previousGroup.after(separator, group);
 }
