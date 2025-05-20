@@ -31,7 +31,9 @@ function getLink(target) {
     // - Images: The event target will be an <a> tag with the link in its href
     //   attribute.
     // - Videos: The event target will be a <div> tag with a <video> tag
-    //   containing the link in its src attribute as its previous sibling.
+    //   containing the link in its src attribute as its previous sibling if the
+    //   video has not been played, or the <video> tag itself if the video is
+    //   playing, paused, or finished.
     // - GIFs: The event target will be like that of an image, unless you
     //   right-click on the "Add to Favorites" button, in which case the event
     //   target can be the button itself or any of its descendants and the link
@@ -58,7 +60,11 @@ function getLink(target) {
         case "span":
             return target.parentElement.getAttribute("href");
         
-        // Handle videos and sometimes GIFs and download buttons.
+        // Sometimes handle videos.
+        case "video":
+            return target.getAttribute("src");
+        
+        // Sometimes handle videos, GIFs, and download buttons.
         default:
             // The contextmenu event has the sibling of the video as target.
             let maybeVideo = target.previousElementSibling;
