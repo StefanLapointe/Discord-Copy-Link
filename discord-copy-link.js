@@ -157,10 +157,8 @@ function injectOptions(menu, link) {
     copyLink.addEventListener("mouseenter", onmouseenter);
     openLink.addEventListener("mouseenter", onmouseenter);
     menu.addEventListener("mouseleave", (event) => {
-        for (let i = 0; i < scroller.children.length; i++) {
-            for (let j = 0; j < scroller.children[i].children.length; j++) {
-                scroller.children[i].children[j].classList.remove(focused);
-            }
+        for (let element of scroller.querySelectorAll("." + focused)) {
+            element.classList.remove(focused);
         }
     })
     let layerContainer = menu.parentElement.parentElement.parentElement;
