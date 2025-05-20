@@ -132,19 +132,19 @@ function injectOptions(menu, link) {
     let copyLink = arbitraryMenuItem.cloneNode(true);
     copyLink.firstElementChild.innerText = "Copy Link";
     copyLink.id = "copy-link";
-    copyLink.onclick = () => {
+    copyLink.addEventListener("click", () => {
         navigator.clipboard.writeText(link);
         menu.parentElement.parentElement.click(); // Click on the "click trap".
-    }
+    });
 
     // Construct the "Open Link" menu item.
     let openLink = arbitraryMenuItem.cloneNode(true);
     openLink.firstElementChild.innerText = "Open Link";
     openLink.id = "open-link";
-    openLink.onclick = () => {
+    openLink.addEventListener("click", () => {
         window.open(link);
         menu.parentElement.parentElement.click(); // Click on the "click trap".
-    }
+    });
 
     // Construct the new menu item group.
     let group = document.createElement("div");
