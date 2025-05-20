@@ -135,7 +135,7 @@ function injectOptions(menu, link) {
         navigator.clipboard.writeText(link);
     }
 
-    // Construct the "CoOpenpy Link" menu item.
+    // Construct the "Open Link" menu item.
     let openLink = arbitraryMenuItem.cloneNode(true);
     openLink.firstElementChild.innerText = "Open Link";
     openLink.onclick = () => {
