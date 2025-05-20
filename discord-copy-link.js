@@ -133,6 +133,7 @@ function injectOptions(menu, link) {
     copyLink.firstElementChild.innerText = "Copy Link";
     copyLink.onclick = () => {
         navigator.clipboard.writeText(link);
+        menu.parentElement.parentElement.click(); // Click on the "click trap".
     }
 
     // Construct the "Open Link" menu item.
@@ -140,6 +141,7 @@ function injectOptions(menu, link) {
     openLink.firstElementChild.innerText = "Open Link";
     openLink.onclick = () => {
         window.open(link);
+        menu.parentElement.parentElement.click(); // Click on the "click trap".
     }
 
     // Construct the new menu item group.
