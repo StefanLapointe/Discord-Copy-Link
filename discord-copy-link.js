@@ -198,4 +198,10 @@ function injectOptions(menu, link) {
 
     // Insert the new separator and menu item group.
     previousGroup.after(separator, group);
+
+    // Fix menu positioning so the bottom is not cut off.
+    if (menu.getBoundingClientRect().bottom > window.innerHeight) {
+        menu.style.position = "fixed";
+        menu.style.bottom = "0";
+    }
 }
