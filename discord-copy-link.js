@@ -131,6 +131,7 @@ function injectOptions(menu, link) {
     // Construct the "Copy Link" menu item.
     let copyLink = arbitraryMenuItem.cloneNode(true);
     copyLink.firstElementChild.innerText = "Copy Link";
+    copyLink.id = "copy-link";
     copyLink.onclick = () => {
         navigator.clipboard.writeText(link);
         menu.parentElement.parentElement.click(); // Click on the "click trap".
@@ -139,6 +140,7 @@ function injectOptions(menu, link) {
     // Construct the "Open Link" menu item.
     let openLink = arbitraryMenuItem.cloneNode(true);
     openLink.firstElementChild.innerText = "Open Link";
+    openLink.id = "open-link";
     openLink.onclick = () => {
         window.open(link);
         menu.parentElement.parentElement.click(); // Click on the "click trap".
