@@ -126,7 +126,9 @@ function injectOptions(menu, link) {
     // Note that its event listeners will not be preserved by cloning.
     let markUnread = document.getElementById("message-mark-unread");
     let arbitraryMenuItem = markUnread.cloneNode(true);
-    arbitraryMenuItem.lastElementChild.remove(); // Remove SVG image.
+    
+    // Remove the SVG image from the cloned menu item.
+    arbitraryMenuItem.lastElementChild.remove();
 
     // Construct the "Copy Link" menu item.
     let copyLink = arbitraryMenuItem.cloneNode(true);
@@ -134,7 +136,9 @@ function injectOptions(menu, link) {
     copyLink.id = "copy-link";
     copyLink.addEventListener("click", () => {
         navigator.clipboard.writeText(link);
-        menu.parentElement.parentElement.click(); // Click on the "click trap".
+        
+        // Click on the "click trap" to cause the menu to close.
+        menu.parentElement.parentElement.click();
     });
 
     // Construct the "Open Link" menu item.
@@ -143,14 +147,18 @@ function injectOptions(menu, link) {
     openLink.id = "open-link";
     openLink.addEventListener("click", () => {
         window.open(link);
-        menu.parentElement.parentElement.click(); // Click on the "click trap".
+
+        // Click on the "click trap" to cause the menu to close.
+        menu.parentElement.parentElement.click();
     });
 
-    // Obtain class name suffix and create focused class name.
+    // The "focused" appearance of menu items is controlled by dynamically
+    // adding or removing a certain class name of the form "focussed_suffix"
+    // where "suffix" is a sequence of letters and numbers common across a group
+    // of different class names. Event listeners are not preserved during
+    // cloning so it is necessary to manually recreate the expected behaviour.
     let suffix = arbitraryMenuItem.classList.item(0).split("_")[1];
     let focused = "focused_" + suffix;
-
-    // Give new menu items expected focus behaviour.
     let onmouseenter = (event) => {
         event.target.classList.add(focused);
     };
