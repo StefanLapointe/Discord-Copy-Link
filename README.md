@@ -1,6 +1,6 @@
 # Discord-Copy-Link
 
-A lightweight browser extension that brings back the "Copy Link" and "Open Link" context menu options to Discord.
+A lightweight browser extension that brings back the "Copy Link" and "Open Link" context menu options to the Discord browser app.
 
 Disclaimer: This project is not affiliated with Discord in any way.
 
